@@ -4,8 +4,13 @@ export default async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    ctx.status = err.status || 500;
-    ctx.body = err.message;
+    const { message, meta, status = 500 } = err;
+    ctx.status = status;
+    ctx.body = {
+      message,
+      meta,
+      status,
+    };
     logger.error(err);
   }
 };

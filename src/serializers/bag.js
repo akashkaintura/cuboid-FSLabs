@@ -1,11 +1,11 @@
 import { Serializer, Deserializer } from 'jsonapi-serializer';
 
 export default {
-  serializer: new Serializer('cuboid', {
-    attributes: ['width', 'height', 'depth', 'bag'],
-    bag: {
+  serializer: new Serializer('bag', {
+    attributes: ['volume', 'cuboids'],
+    cuboids: {
       ref: 'id',
-      attributes: ['volume'],
+      attributes: ['width', 'height', 'depth'],
     },
   }),
   deserializer: new Deserializer(),
