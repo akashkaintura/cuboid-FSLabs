@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "name": "Attach",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "port": 9001,
+      "outFiles": ["${workspaceRoot}/.compiled"],
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "${workspaceRoot}"
+    }
+  ]
+}

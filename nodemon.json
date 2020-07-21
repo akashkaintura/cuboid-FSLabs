@@ -1,0 +1,16 @@
+{
+  "execMap": {
+    "js": "babel-node"
+  },
+  "ext": "js,json",
+  "ignoreRoot": [
+    ".git"
+  ],
+  "ignore": [],
+  "restartable": "rs",
+  "verbose": true,
+  "watch": [
+    "src",
+    ".env"
+  ]
+}
