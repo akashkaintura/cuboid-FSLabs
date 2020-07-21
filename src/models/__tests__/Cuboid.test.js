@@ -1,0 +1,37 @@
+import Bag from '../Bag';
+import Cuboid from '../Cuboid';
+
+let bag;
+
+beforeAll(async () => {
+  bag = await Bag.query().insert({
+    volume: 100,
+    cuboids: [{ width: 2, height: 2, depth: 2 }],
+  });
+});
+
+describe.each([
+  [3, 3, 3, 27],
+  [4, 4, 4, 64],
+])('Cuboid %i x %i x %i', (width, height, depth, volume) => {
+  let cuboid;
+
+  beforeAll(async () => {
+    cuboid = await Cuboid.query().insert({
+      width,
+      height,
+      depth,
+      bagId: bag.id,
+    });
+  });
+
+  it('should have dimensions', () => {
+    expect(cuboid.width).toBe(width);
+    expect(cuboid.height).toBe(height);
+    expect(cuboid.depth).toBe(depth);
+  });
+
+  it('should have volume', () => {
+    expect(cuboid.volume).toBe(volume);
+  });
+});

@@ -6,7 +6,7 @@ module.exports = {
     '!src/**/__tests__/**',
     '!**/index.js',
     '!src/config/*',
-    '!tests/factories/**/*',
+    '!src/db/knex.js',
   ],
   roots: ['./src'],
   coverageThreshold: {

@@ -1,36 +1,48 @@
 # Cuboids
 
-## Installation:
+## Technology
 
-### Install Node Version:
+This app uses the following key technologies:
 
-Node Version Manager (`nvm`) is used to synchronize the version of node. If you don't have nvm installed, follow the readme [here](https://github.com/nvm-sh/nvm#installation-and-update). 
+- [Koa](https://koajs.com/)
+- [Objection.js](https://vincit.github.io/objection.js/)
+- [Knex.js](http://knexjs.org/)
+- [Jest](https://jestjs.io/)
 
-An `.nvmrc` file has been included so all you need to do to is:
+
+## Setup
+
+Use `nvm` to install the correct version of node:
 ```shell script
 nvm install
 ```
 
-This will install the correct Node runtime.
-
-### Create .env
-
-Copy `.env.example` to a new file called `.env` at the root of the project. These variables are loaded into the app as environment variables.
+Copy `.env.example` to `.env`.
 ```shell script
 cp .env.example .env
 ```
 
-## Creating migrations
+Install packages.
+```shell script
+npm install
+```
 
-For database DDL changes we are using migrations via Knex CLI.
+## Usage
 
-1.  Navigate to the root path of the project.
-1.  Run the following command with a proper MIGRATION_NAME:
-    ```shell script
-    npm run db:migrate:make -- MIGRATION_NAME
-    ```
-1.  The migration command will generate a new file at the <root>/knex/migrations path. Filename will be a timestamp followed by the name of your migration.
-1.  Documentation can be found here: http://knexjs.org/#Migrations-CLI
+Run the app.
+```shell script
+npm run dev
+```
+
+Run the linter.
+```shell script
+npm run lint
+```
+
+Run the tests.
+```shell script
+npm test
+```
 
 ## Challenge
 
@@ -49,16 +61,20 @@ add the missing functionality so that the tests pass.
 You should also take note of the linter and prettier. The linter is currently passing and must pass on completion
 of the challenge, without any modifications to the config. 
 
+**Note**: Do not modify the test files. This challenge is to get the tests to pass without changing them. 
+
 ### Steps
 
 To participate in this challenge take the following steps:
 
 1. Clone this repository.
-1. Checkout a branch named with your name as `first-last`.
+1. Create a repository of the same name in your personal GitHub account. (Do not fork)
+1. Add a second remote to this repository and push the master branch.
+1. Checkout a feature branch where you will make your changes.
 1. Setup the app and get it running. Verify that the linter passes and the test suite fails.
-1. Add the missing functionality.
+1. Add the missing functionality without changing the test files.
 1. Commit as appropriate as you complete the challenge. (More than one commit is expected)
-1. Push your committed changes on your branch. 
-1. Create a pull request to the master branch.
+1. Push your committed changes to your repository on your feature branch. 
+1. Create a pull request to the master branch on your repository.
 1. Send the link to your pull request to signify the completion of the challenge. 
 

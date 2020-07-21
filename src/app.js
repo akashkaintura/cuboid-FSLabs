@@ -8,9 +8,9 @@ const app = new Koa();
 
 app.use(middleware.logger);
 app.use(middleware.errors);
-app.use(middleware.querystring);
-app.use(middleware.serializer);
+app.use(middleware.parser);
 app.use(koaBody());
+app.use(middleware.serializer);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
