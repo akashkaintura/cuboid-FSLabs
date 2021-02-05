@@ -24,14 +24,15 @@ of the challenge, without any modifications to the config.
 To participate in this challenge take the following steps:
 
 1. Clone this repository.
-1. Create a repository of the same name in your personal GitHub account. (Do not fork)
-1. Add a second remote to this repository and push the master branch.
+1. Create a private repository of the same name in your personal GitHub account. (Do not fork)
+1. Add a second remote to your local copy of this repository and push the master branch.
 1. Checkout a feature branch where you will make your changes.
 1. Setup the app and get it running. Verify that the linter passes and the test suite fails.
 1. Add the missing functionality without changing the test files.
 1. Commit as appropriate as you complete the challenge. (More than one commit is expected)
 1. Push your committed changes to your repository on your feature branch. 
 1. Create a pull request to the master branch on your repository.
+1. Invite @bencarle and @mfpiccolo to your private repository.
 1. Send the link to your pull request to signify the completion of the challenge. 
 
 ## Technology
