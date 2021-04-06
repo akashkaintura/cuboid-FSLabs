@@ -14,14 +14,16 @@ A bag is a malleable container with adjustable dimensions, but a fixed volume. T
 shape or combination of shapes, but the volume of the bag is limited and cannot expand. In our model a bag 
 has many cuboids. 
 
-This app has a complete test suite but is missing some functionality. Because of this the test suite is failing.
-Your task is to get the test suite to pass without modifying any of the test files. In other words, you need to
-add the missing functionality so that the tests pass. 
+This app has an almost complete test suite.
+
+The tests to update and delete a cuboid are incomplete, your task is to improve them.
+
+The other tests are valid and you must not modify them. In other words, you need to add the missing functionalities so that these tests pass.
 
 You should also take note of the linter and prettier. The linter is currently passing and must pass on completion
 of the challenge, without any modifications to the config. 
 
-**Note**: Do not modify the test files. This challenge is to get the tests to pass without changing them. 
+**Note**: The only tests to be modified are tests to update and delete a cuboid. All other tests must remain unchanged.
 
 ### Steps
 
@@ -32,7 +34,8 @@ To participate in this challenge take the following steps:
 1. Add a second remote to your local copy of this repository and push the master branch.
 1. Checkout a feature branch where you will make your changes.
 1. Setup the app and get it running. Verify that the linter passes and the test suite fails.
-1. Add the missing functionality without changing the test files.
+1. Implement tests to update and delete a cuboid.
+1. Add missing functionalities so the other tests pass. Do NOT modify these tests.
 1. Commit as appropriate as you complete the challenge. (More than one commit is expected)
 1. Push your committed changes to your repository on your feature branch. 
 1. Create a pull request to the master branch on your repository.
@@ -43,7 +46,7 @@ To participate in this challenge take the following steps:
 
 This app uses the following key technologies:
 
-- [Koa](https://koajs.com/)
+- [Express](https://expressjs.com/)
 - [Objection.js](https://vincit.github.io/objection.js/)
 - [Knex.js](http://knexjs.org/)
 - [Jest](https://jestjs.io/)

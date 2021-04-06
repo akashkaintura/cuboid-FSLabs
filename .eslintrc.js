@@ -52,17 +52,6 @@ module.exports = {
       },
     },
     {
-      files: [
-        'src/controllers/*.js',
-        'src/controllers/*/actions.js',
-        'src/middleware/serializer.js',
-      ],
-      rules: {
-        // off because of false positives with koa ctx assignment
-        'require-atomic-updates': 'off',
-      },
-    },
-    {
       files: ['knex/*/*.js'],
       rules: {
         'filenames/match-regex': ['error', '^[a-zA-Z0-9_]+$'],

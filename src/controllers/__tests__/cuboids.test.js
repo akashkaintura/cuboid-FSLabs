@@ -1,28 +1,28 @@
 import HttpStatus from 'http-status-codes';
 import request from 'supertest';
-import { Serializer } from 'jsonapi-serializer';
 
 import app from '../../app';
 import Bag from '../../models/Bag';
 import Cuboid from '../../models/Cuboid';
-import serializers from '../../serializers';
 import factories from '../../factories';
 import urlJoin from 'url-join';
-import base from '../../serializers/base';
-
-const requestSerializer = new Serializer('cuboid', {
-  ...base.serializer,
-  attributes: ['width', 'height', 'depth', 'bagId'],
-});
 
 const server = app.listen();
+
+afterAll(() => server.close());
 
 describe('cuboid get', () => {
   let bagId;
 
   beforeEach(async () => {
-    bagId = (await Bag.query().insert(factories.bag.build({ volume: 10000 })))
-      .id;
+    bagId = (
+      await Bag.query().insert(
+        factories.bag.build({
+          volume: 10000,
+          title: 'A bag',
+        })
+      )
+    ).id;
   });
 
   it('should get all cuboids', async () => {
@@ -38,18 +38,15 @@ describe('cuboid get', () => {
     const response = await request(server).get('/cuboids').query({
       'ids[]': ids,
     });
+
     expect(response.status).toBe(HttpStatus.OK);
+    expect(response.body.length).toBe(ids.length);
 
-    const retrieved = await serializers.cuboid.deserializer.deserialize(
-      response.body
-    );
-
-    expect(retrieved.length).toBe(ids.length);
-    retrieved.forEach((cuboid) => {
+    response.body.forEach((cuboid) => {
       expect(cuboid.width).toBeDefined();
       expect(cuboid.height).toBeDefined();
       expect(cuboid.depth).toBeDefined();
-      expect(cuboid.bag.id).toBe(bagId.toString());
+      expect(cuboid.bag.id).toBe(bagId);
     });
   });
 
@@ -60,13 +57,10 @@ describe('cuboid get', () => {
     const response = await request(server).get(
       urlJoin('/cuboids', id.toString())
     );
-    expect(response.status).toBe(HttpStatus.OK);
 
-    const deserialized = await serializers.cuboid.deserializer.deserialize(
-      response.body
-    );
-    expect(typeof deserialized.id).toBe('string');
-    expect(deserialized.id).toBe(id.toString());
+    expect(response.status).toBe(HttpStatus.OK);
+    expect(typeof response.body.id).toBe('number');
+    expect(response.body.id).toBe(id);
   });
 
   it('should get with volume', async () => {
@@ -81,12 +75,9 @@ describe('cuboid get', () => {
     const response = await request(server).get(
       urlJoin('/cuboids', id.toString())
     );
-    expect(response.status).toBe(HttpStatus.OK);
 
-    const deserialized = await serializers.cuboid.deserializer.deserialize(
-      response.body
-    );
-    expect(deserialized.volume).toBe(64);
+    expect(response.status).toBe(HttpStatus.OK);
+    expect(response.body.volume).toBe(64);
   });
 
   it('should return not-found if not found', async () => {
@@ -99,7 +90,12 @@ describe('cuboid create', () => {
   let bag;
 
   beforeEach(async () => {
-    bag = await Bag.query().insert(factories.bag.build({ volume: 2000 }));
+    bag = await Bag.query().insert(
+      factories.bag.build({
+        volume: 2000,
+        title: 'A bag',
+      })
+    );
     const cuboids = factories.cuboid.buildList(3, {
       width: 10,
       height: 10,
@@ -116,18 +112,13 @@ describe('cuboid create', () => {
       depth: 8,
       bagId: bag.id,
     });
-    const serialized = await requestSerializer.serialize(cuboid);
 
-    const response = await request(server)
-      .post('/cuboids')
-      .send({ data: serialized.data });
+    const response = await request(server).post('/cuboids').send(cuboid);
+
     expect(response.status).toBe(HttpStatus.CREATED);
 
-    const deserialized = await serializers.cuboid.deserializer.deserialize(
-      response.body
-    );
     const { width, height, depth, bagId } = await Cuboid.query().findById(
-      deserialized.id
+      response.body.id
     );
 
     expect(width).toBe(cuboid.width);
@@ -143,12 +134,81 @@ describe('cuboid create', () => {
       depth: 9,
       bagId: bag.id,
     });
-    const serialized = await requestSerializer.serialize(cuboid);
 
-    const response = await request(server)
-      .post('/cuboids')
-      .send({ data: serialized.data });
+    const response = await request(server).post('/cuboids').send(cuboid);
+
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
     expect(response.body.message).toBe('Insufficient capacity in bag');
+  });
+});
+
+/**
+ * DO NOT modify the tests ABOVE
+ * IMPLEMENT the tests BELOW
+ */
+
+describe('cuboid update', () => {
+  let bag;
+  let cuboid;
+
+  beforeEach(async () => {
+    bag = await Bag.query().insert(
+      factories.bag.build({
+        volume: 250,
+        title: 'A bag',
+      })
+    );
+    await Cuboid.query().insert(
+      factories.cuboid.build({
+        width: 5,
+        height: 5,
+        depth: 5,
+        bagId: bag.id,
+      })
+    );
+    cuboid = await Cuboid.query().insert(
+      factories.cuboid.build({
+        width: 4,
+        height: 4,
+        depth: 4,
+        bagId: bag.id,
+      })
+    );
+  });
+
+  it('should succeed to update the cuboid', () => {
+    const [newWidth, newHeight, newDepth] = [5, 5, 5];
+    const response = { body: {} };
+    cuboid = response.body;
+
+    expect(response.status).toBe(HttpStatus.OK);
+    expect(cuboid.width).toBe(newWidth);
+    expect(cuboid.height).toBe(newHeight);
+    expect(cuboid.depth).toBe(newDepth);
+    expect(cuboid.bagId).toBe(bag.id);
+  });
+
+  it('should fail to update if insufficient capacity and return 400 status code', () => {
+    const [newWidth, newHeight, newDepth] = [6, 6, 6];
+    const response = { body: {} };
+
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+    expect(response.body.width).not.toBe(newWidth);
+    expect(response.body.height).not.toBe(newHeight);
+    expect(response.body.depth).not.toBe(newDepth);
+  });
+});
+
+describe('cuboid delete', () => {
+  it('should delete the cuboid', () => {
+    const response = {};
+
+    expect(response.status).toBe(HttpStatus.OK);
+  });
+
+  it('should not delete and return 404 status code when cuboids doesnt exists', () => {
+    const response = {};
+
+    expect(response.status).toBe(HttpStatus.NOT_FOUND);
   });
 });

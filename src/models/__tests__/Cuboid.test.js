@@ -6,6 +6,7 @@ let bag;
 beforeAll(async () => {
   bag = await Bag.query().insert({
     volume: 100,
+    title: 'A bag',
     cuboids: [{ width: 2, height: 2, depth: 2 }],
   });
 });
@@ -17,12 +18,14 @@ describe.each([
   let cuboid;
 
   beforeAll(async () => {
-    cuboid = await Cuboid.query().insert({
-      width,
-      height,
-      depth,
-      bagId: bag.id,
-    });
+    cuboid = (
+      await Cuboid.query().insert({
+        width,
+        height,
+        depth,
+        bagId: bag.id,
+      })
+    ).toJSON();
   });
 
   it('should have dimensions', () => {

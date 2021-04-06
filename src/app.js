@@ -1,17 +1,14 @@
-import Koa from 'koa';
-import koaBody from 'koa-body';
+import express from 'express';
+import { appLogger, errorLogger } from './logger';
 
-import * as middleware from './middleware';
 import router from './router';
 
-const app = new Koa();
+const app = express();
 
-app.use(middleware.logger);
-app.use(middleware.errors);
-app.use(middleware.parser);
-app.use(koaBody());
-app.use(middleware.serializer);
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.disable('etag');
+app.use(express.json());
+app.use(appLogger);
+app.use(router);
+app.use(errorLogger);
 
 export default app;

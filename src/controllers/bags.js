@@ -3,23 +3,25 @@ import HttpStatus from 'http-status-codes';
 import Bag from '../models/Bag';
 import { byId } from './filters';
 
-export const list = async (ctx) => {
-  ctx.body = await Bag.query().where(byId(ctx.qs)).withGraphFetched('cuboids');
+export const list = async (req, res) => {
+  const bags = await Bag.query()
+    .where(byId(req.query))
+    .withGraphFetched('cuboids');
+  return res.status(200).json(bags);
 };
 
-export const get = async (ctx) => {
+export const get = async (req, res) => {
   const bag = await Bag.query()
-    .findById(ctx.params.id)
+    .findById(req.params.id)
     .withGraphFetched('cuboids');
   if (!bag) {
-    ctx.status = HttpStatus.NOT_FOUND;
-    return;
+    return res.sendStatus(HttpStatus.NOT_FOUND);
   }
-  ctx.body = bag;
+  return res.status(200).json(bag);
 };
 
-export const create = async (ctx) => {
-  const { volume } = ctx.state.data;
-  ctx.body = await Bag.query().insert({ volume });
-  ctx.status = HttpStatus.CREATED;
+export const create = async (req, res) => {
+  const { volume, title } = req.body;
+  const bag = await Bag.query().insert({ volume, title });
+  return res.status(HttpStatus.CREATED).json(bag);
 };
