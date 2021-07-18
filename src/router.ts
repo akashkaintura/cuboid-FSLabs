@@ -1,11 +1,11 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import * as bags from './controllers/bags';
 import * as cuboids from './controllers/cuboids';
 
-const router = new Router();
+const router = Router();
 
 router
-  .get('/', (req, res) => res.send('Cuboids'))
+  .get('/', (req: Request, res: Response) => res.send('Cuboids'))
   .get('/bags', bags.list)
   .get('/bags/:id', bags.get)
   .post('/bags', bags.create)

@@ -1,24 +1,24 @@
-const { knexSnakeCaseMappers } = require('objection');
-const config = require('./src/config');
+import { config } from './src/config';
+import * as path from 'path';
+import objection from 'objection';
 
 const defaultKnexConfig = {
   client: 'sqlite3',
   migrations: {
     tableName: 'knex_migrations',
-    directory: __dirname + '/knex/migrations',
+    directory: path.resolve('knex/migrations'),
   },
   seeds: {
-    directory: __dirname + '/knex/seeds',
+    directory: path.resolve('knex/seeds'),
   },
-  ...knexSnakeCaseMappers(),
+  ...objection.knexSnakeCaseMappers(),
   useNullAsDefault: true,
 };
 
-module.exports = {
+export default {
   development: {
     ...defaultKnexConfig,
     connection: { filename: config.dbFilename },
-    knexDebug: config.knexDebug,
   },
   test: {
     ...defaultKnexConfig,

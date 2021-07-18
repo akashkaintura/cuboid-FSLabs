@@ -1,6 +1,5 @@
 import express from 'express';
 import { appLogger, errorLogger } from './logger';
-
 import router from './router';
 
 const app = express();

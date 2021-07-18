@@ -1,27 +1,26 @@
 import _ from 'lodash';
-import { createLogger, format, transports } from 'winston';
+import winston from 'winston';
 import expressWinston from 'express-winston';
 
 const level = process.env.LOG_LEVEL || 'debug';
 const silent = process.env.NODE_ENV === 'test';
 
-const winstonInstance = createLogger({
+const winstonInstance = winston.createLogger({
   defaultMeta: { service: 'Cuboids' },
-  format: format.combine(
-    format.colorize(),
-    format.timestamp({
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss',
     }),
-    format.printf((info) => {
+    winston.format.printf((info) => {
       const res = JSON.stringify(_.get(info, 'meta.res', ''));
       const msg = info.stack || info.message;
       return `${info.level} ${info.timestamp} : ${msg} : ${res}}`;
     })
   ),
   transports: [
-    new transports.Console({
+    new winston.transports.Console({
       handleExceptions: true,
-      handleRejections: true,
       level,
       silent,
     }),

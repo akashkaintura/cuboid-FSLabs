@@ -46,6 +46,7 @@ To participate in this challenge take the following steps:
 
 This app uses the following key technologies:
 
+- [Typescript](https://www.typescriptlang.org/)
 - [Express](https://expressjs.com/)
 - [Objection.js](https://vincit.github.io/objection.js/)
 - [Knex.js](http://knexjs.org/)

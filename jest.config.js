@@ -1,12 +1,12 @@
-module.exports = {
+export default {
   collectCoverage: true,
   coverageReporters: ['lcov', 'text', 'text-summary', 'html'],
   collectCoverageFrom: [
-    'src/**/*.js',
+    'src/**/*.ts',
     '!src/**/__tests__/**',
-    '!**/index.js',
+    '!**/index.ts',
     '!src/config/*',
-    '!src/db/knex.js',
+    '!src/db/knex.ts',
   ],
   roots: ['./src'],
   coverageThreshold: {
@@ -16,5 +16,9 @@ module.exports = {
       lines: 90,
       statements: 90,
     },
+  },
+  preset: 'ts-jest',
+  moduleNameMapper: {
+    '^src/(.*)$': '<rootDir>/src/$1',
   },
 };

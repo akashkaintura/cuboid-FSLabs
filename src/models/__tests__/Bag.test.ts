@@ -44,17 +44,15 @@ describe.each([
   ['two cuboids', bags[2]],
   ['three cuboids', bags[3]],
 ])('Bag with %s', (_, bagData) => {
-  let bag;
+  let bag: Bag;
   const { volume, title, payloadVolume, availableVolume, cuboids } = bagData;
 
   beforeAll(async () => {
-    bag = (
-      await Bag.query().insert({
-        volume,
-        title,
-        cuboids,
-      })
-    ).toJSON();
+    bag = await Bag.query().insertGraphAndFetch({
+      volume,
+      title,
+      cuboids,
+    });
   });
 
   it('should have volume', () => {
@@ -72,4 +70,8 @@ describe.each([
   it('should have availableVolume', () => {
     expect(bag.availableVolume).toBe(availableVolume);
   });
+});
+
+it('should have relation mapping', () => {
+  expect(Bag.relationMappings).toHaveProperty('cuboids');
 });

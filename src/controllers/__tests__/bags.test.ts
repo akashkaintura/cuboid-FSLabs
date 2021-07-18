@@ -3,7 +3,7 @@ import request from 'supertest';
 import urlJoin from 'url-join';
 
 import app from '../../app';
-import Bag from '../../models/Bag';
+import { Bag } from '../../models';
 import factories from '../../factories';
 
 const server = app.listen();
@@ -20,12 +20,12 @@ describe('bag list', () => {
     );
 
     const response = await request(server).get('/bags').query({
-      'ids[]': ids,
+      ids,
     });
 
     expect(response.status).toBe(HttpStatus.OK);
     expect(response.body.length).toBe(ids.length);
-    response.body.forEach((bag) => {
+    response.body.forEach((bag: Bag) => {
       expect(bag.volume).toBeDefined();
       expect(bag.title).toBeDefined();
       expect(bag.cuboids).toBeDefined();
@@ -58,7 +58,14 @@ describe('bag create', () => {
 
     expect(response.status).toBe(HttpStatus.CREATED);
 
-    const { volume, title } = await Bag.query().findById(response.body.id);
+    const fetchedBag = await Bag.query().findById(response.body.id);
+
+    if (!fetchedBag) {
+      throw new Error('Bag not found');
+    }
+
+    const { volume, title } = fetchedBag;
+
     expect(volume).toBe(bag.volume);
     expect(title).toBe(bag.title);
   });
