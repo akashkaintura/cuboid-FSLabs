@@ -210,7 +210,10 @@ describe('cuboid update', () => {
 
   it('should fail to update if insufficient capacity and return 422 status code', () => {
     const [newWidth, newHeight, newDepth] = [6, 6, 6];
-    const response = { body: {} as Cuboid, status: HttpStatus.UNPROCESSABLE_ENTITY };
+    const response = {
+      body: {} as Cuboid,
+      status: HttpStatus.UNPROCESSABLE_ENTITY,
+    };
 
     expect(response.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
     expect(response.body.width).not.toBe(newWidth);
