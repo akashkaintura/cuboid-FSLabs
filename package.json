@@ -42,7 +42,7 @@
     "moment": "^2.27.0",
     "objection": "^3.0.0-alpha.4",
     "rosie": "^2.0.1",
-    "sqlite3": "^5.0.0",
+    "sqlite3": "^5.0.3",
     "url-join": "^4.0.1",
     "winston": "^3.3.3"
   },
