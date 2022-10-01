@@ -197,7 +197,7 @@ describe('cuboid update', () => {
   });
 
   it('should succeed to update the cuboid', () => {
-    const [newWidth, newHeight, newDepth] = [5, 5, 5];
+    const [newWidth, newHeight, newDepth] = [3, 3, 3];
     const response = { body: {} as Cuboid, status: HttpStatus.OK };
     cuboid = response.body;
 
@@ -223,15 +223,45 @@ describe('cuboid update', () => {
 });
 
 describe('cuboid delete', () => {
+  let bag: Bag;
+  let cuboid: Cuboid;
+
+  beforeEach(async () => {
+    bag = await Bag.query().insert(
+      factories.bag.build({
+        volume: 250,
+        title: 'A bag',
+      })
+    );
+    await Cuboid.query().insert(
+      factories.cuboid.build({
+        width: 5,
+        height: 5,
+        depth: 5,
+        bagId: bag.id,
+      })
+    );
+    cuboid = await Cuboid.query().insert(
+      factories.cuboid.build({
+        width: 4,
+        height: 4,
+        depth: 4,
+        bagId: bag.id,
+      })
+    );
+  });
+
   it('should delete the cuboid', () => {
     const response = { status: HttpStatus.OK };
 
     expect(response.status).toBe(HttpStatus.OK);
+    expect(response.body.message).toBe('Cuboid Successfully deleted');
   });
 
   it('should not delete and return 404 status code when cuboids doesnt exists', () => {
     const response = { status: HttpStatus.NOT_FOUND };
 
     expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    expect(response.body.message).toBe('Cuboid does not found');
   });
 });
