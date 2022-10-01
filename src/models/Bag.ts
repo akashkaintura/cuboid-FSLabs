@@ -29,7 +29,7 @@ export class Bag extends Base {
     return ['payloadVolume', 'availableVolume'];
   }
 
-  get payloadVolume() {
+  get payloadVolume(): number {
     return (
       this.cuboids
         ?.map((cuboid) => cuboid.volume)
@@ -37,7 +37,7 @@ export class Bag extends Base {
     );
   }
 
-  get availableVolume() {
+  get availableVolume(): number {
     return this.volume - this.payloadVolume;
   }
 }
