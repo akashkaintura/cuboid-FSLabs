@@ -39,7 +39,7 @@
     "http-status-codes": "^1.4.0",
     "knex": "^0.95.7",
     "lodash": "^4.17.19",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "objection": "^3.0.0-alpha.4",
     "rosie": "^2.0.1",
     "sqlite3": "^5.0.0",
