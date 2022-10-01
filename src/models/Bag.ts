@@ -6,8 +6,8 @@ export class Bag extends Base {
   id!: Id;
   volume!: number;
   title!: string;
-  payloadVolume!: number;
-  availableVolume!: number;
+  // payloadVolume!: number;
+  // availableVolume!: number;
   cuboids?: Cuboid[] | undefined;
 
   static tableName = 'bags';
@@ -23,6 +23,22 @@ export class Bag extends Base {
         },
       },
     };
+  }
+
+  static get virtualAttributes(): Array<string> {
+    return ['payloadVolume', 'availableVolume'];
+  }
+
+  get payloadVolume() {
+    return (
+      this.cuboids
+        ?.map((cuboid) => cuboid.volume)
+        .reduce((prev, current) => prev + current, 0) || 0
+    );
+  }
+
+  get availableVolume() {
+    return this.volume - this.payloadVolume;
   }
 }
 

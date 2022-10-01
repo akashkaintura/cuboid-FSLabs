@@ -1,3 +1,4 @@
+import { List } from 'lodash';
 import { Id, RelationMappings } from 'objection';
 import { Bag } from './Bag';
 import Base from './Base';
@@ -9,7 +10,7 @@ export class Cuboid extends Base {
   depth!: number;
   bagId?: Id;
   bag!: Bag;
-  volume!: number;
+  // volume!: number;
 
   static tableName = 'cuboids';
 
@@ -24,6 +25,14 @@ export class Cuboid extends Base {
         },
       },
     };
+  }
+
+  static get virtualAttributes(): Array<string> {
+    return ['volume'];
+}
+
+  get volume(): number {
+    return this.width * this.height * this.depth;
   }
 }
 
