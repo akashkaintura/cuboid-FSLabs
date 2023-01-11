@@ -37,7 +37,7 @@
     "express-winston": "^4.1.0",
     "faker": "^5.5.3",
     "http-status-codes": "^1.4.0",
-    "knex": "^0.95.7",
+    "knex": "^2.4.0",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "objection": "^3.0.0-alpha.4",
